@@ -21,20 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package mrdshinse.sql2xlsx.json;
+package mrdshinse.sql2xlsx.command;
 
-import lombok.Data;
+import mrdshinse.sql2xlsx.consts.Consts;
+import mrdshinse.sql2xlsx.json.SqlProperty;
 
 /**
  *
  * @author mrdShinse
  */
-@Data
-public class SqlProperty {
+public class SqlServerSqlCmd extends AbstractSqlCmd {
 
-    private String dbType;
-    private String server;
-    private String dbName;
-    private String user;
-    private String password;
+    public SqlServerSqlCmd(SqlProperty prop, String fileName) {
+        super(prop, fileName);
+    }
+
+    @Override
+    public String[] getCommand() {
+        if (prop == null || fileName == null) {
+            throw new RuntimeException("prop:" + prop + " fileName:" + fileName);
+        }
+
+        return new String[]{
+            "sqlcmd",
+            "-S", prop.getServer(),
+            "-d", prop.getDbName(),
+            "-U", prop.getUser(),
+            "-P", prop.getPassword(),
+            "-i", Consts.DIR_QUERY + Consts.DELIMITER + fileName + ".sql",
+            "-b", //エラー発生時にコマンドを終了する。
+            "-s", "\t", //列の区切り文字をタブ(\t)とする。
+            "-k2", //制御文字(タブ・改行)を空白で置き換える。
+            "-W", //removes trailing spaces from a column.
+            "-o", Consts.DIR_TSV + Consts.DELIMITER + fileName + ".tsv"
+        };
+    }
+
 }

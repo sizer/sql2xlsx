@@ -49,6 +49,7 @@ public class Initializer {
 
         InputHelper helper = new InputHelper();
 
+        sqlProp.setDbType(helper.getInput("database (ex.) mysql"));
         sqlProp.setServer(helper.getInput("server name"));
         sqlProp.setDbName(helper.getInput("database name"));
         sqlProp.setUser(helper.getInput("user name"));

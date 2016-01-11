@@ -23,13 +23,54 @@
  */
 package mrdshinse.sql2xlsx.logic;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.util.Arrays;
+import mrdshinse.sql2xlsx.command.MysqlSqlCmd;
+import mrdshinse.sql2xlsx.consts.Consts;
+import mrdshinse.sql2xlsx.helper.RuntimeExecuter;
+import mrdshinse.sql2xlsx.json.SqlProperty;
+import mrdshinse.sql2xlsx.util.JsonUtil;
+
 /**
  *
  * @author mrdShinse
  */
 public class SqlExecuter {
 
-    public void exe() {
+    private SqlProperty prop;
+    private RuntimeExecuter runtime;
 
+    public SqlExecuter() {
+        prop = JsonUtil.parse(new File(Consts.PROP_SQL), SqlProperty.class);
+        runtime = new RuntimeExecuter();
+    }
+
+    public void exe() {
+        File[] sqlFiles = new File(Consts.DIR_QUERY).listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                return f.isFile() && f.getName().endsWith("sql");
+            }
+        });
+
+        if (sqlFiles == null) {
+            return;
+        }
+        for (File f : Arrays.asList(sqlFiles)) {
+            String fileName = f.getName();
+            execCmd(fileName.substring(0, fileName.length() - 4));
+        }
+    }
+
+    private void execCmd(String fileName) {
+        String[] cmd = new MysqlSqlCmd(prop, fileName).getCommand();
+
+        try {
+            runtime.execCmd(cmd);
+        } catch (IOException | InterruptedException e) {
+            System.out.println("SQLコマンドの実行に失敗しました。");
+        }
     }
 }
