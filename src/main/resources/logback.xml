@@ -1,0 +1,29 @@
+<configuration>
+
+    <property name="LoggingDir" value="logs/" />
+    <property name="ROOT_LEVEL" value="TRACE" />
+    <timestamp key="byDate" datePattern="yyyyMMdd"/>
+
+    <appender name="ASYNC_STDOUT1" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="STDOUT1"/>
+    </appender>
+
+    <appender name="ASYNC_INFO" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="INFO"/>
+    </appender>
+
+    <appender name="ASYNC_ERROR" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="ERROR"/>
+    </appender>
+
+    <appender name="ASYNC_DEBUG" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="DEBUG"/>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="ASYNC_STDOUT1"/>
+        <appender-ref ref="ASYNC_INFO"/>
+        <appender-ref ref="ASYNC_ERROR"/>
+        <appender-ref ref="ASYNC_DEBUG"/>
+    </root>
+</configuration>
