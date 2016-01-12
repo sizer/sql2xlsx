@@ -23,20 +23,10 @@
  */
 package mrdshinse.sql2xlsx.csv;
 
-import com.orangesignal.csv.annotation.CsvColumn;
-import com.orangesignal.csv.annotation.CsvEntity;
-import lombok.Data;
-
 /**
  *
  * @author mrdShinse
  */
-@CsvEntity
-@Data
-public class SampleCsv {
+public abstract class AbstractCsv {
 
-    @CsvColumn(name = "id")
-    private int id;
-    @CsvColumn(name = "name")
-    private String name;
 }

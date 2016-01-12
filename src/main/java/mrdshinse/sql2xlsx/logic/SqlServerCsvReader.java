@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import mrdshinse.sql2xlsx.csv.AbstractCsv;
 
 /**
  *
@@ -49,12 +50,12 @@ import java.util.logging.Logger;
  */
 public class SqlServerCsvReader {
 
-    public List<Object> exe(File tsv) {
-        List<Object> retList = new ArrayList<Object>();
+    public List<AbstractCsv> exe(File tsv) {
+        List<AbstractCsv> retList = new ArrayList<>();
 
         try {
             modifyCsv(tsv);
-            getBean(tsv, Class.forName("mrdshinse.sql2xlsx.csv." + tsv.getName().replaceAll(".tsv", "")));
+            retList = getBean(tsv, Class.forName("mrdshinse.sql2xlsx.csv." + tsv.getName().replaceAll(".tsv", "")));
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SqlServerCsvReader.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -90,9 +91,9 @@ public class SqlServerCsvReader {
         result.renameTo(file);
     }
 
-    private List<Object> getBean(File file, Class clazz) {
+    private List<AbstractCsv> getBean(File file, Class clazz) {
         InputStreamReader isr = null;
-        List list = null;
+        List list = new ArrayList<>();
 
         try {
             isr = new InputStreamReader(new FileInputStream(file));
