@@ -38,7 +38,7 @@ public interface Consts {
     final String PROP_SQL = CONFIG + DELIMITER + "sqlProp.json";
     final String DIR_QUERY = CURRENT_DIR + DELIMITER + "data" + DELIMITER + "query";
     final String DIR_TSV = CURRENT_DIR + DELIMITER + "data" + DELIMITER + "tmp" + DELIMITER + "tsv";
-    final String DIR_TEMPLATE = CURRENT_DIR + DELIMITER + "data" + DELIMITER + "tmp" + DELIMITER + "template";
+    final String DIR_TEMPLATE = CURRENT_DIR + DELIMITER + "data" + DELIMITER + "template";
     final String DIR_RESULT = CURRENT_DIR + DELIMITER + "data" + DELIMITER + "result";
 
 }

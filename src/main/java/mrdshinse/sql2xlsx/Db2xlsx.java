@@ -66,12 +66,12 @@ public class Db2xlsx {
             }
 
             for (File tsv : tsvFiles) {
-                System.out.print("reading tsv files...");
+                System.out.print("reading tsv files..." + tsv.getName());
                 List<AbstractCsv> list = new SqlServerCsvReader().exe(tsv);
-                System.out.println("finished");
-                System.out.print("create excel files...");
+                System.out.println(" finished");
+                System.out.print("create excel files..." + tsv.getName());
                 new ExcelBuilder().exe(tsv, list);
-                System.out.println("finished");
+                System.out.println(" finished");
             }
         }
 

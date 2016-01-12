@@ -33,6 +33,7 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import mrdshinse.sql2xlsx.consts.Consts;
 import mrdshinse.sql2xlsx.csv.AbstractCsv;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
@@ -52,8 +53,8 @@ public class ExcelBuilder {
 
         InputStream is = null;
         try {
-            is = new FileInputStream("C:\\Users\\bttanakasnx\\github\\sql2xlsx\\data\\tmp\\template\\" + fileName + ".xls");
-            OutputStream os = new FileOutputStream("C:\\Users\\bttanakasnx\\github\\sql2xlsx\\data\\result\\" + fileName + ".xls");
+            is = new FileInputStream(Consts.DIR_TEMPLATE + Consts.DELIMITER + fileName + ".xls");
+            OutputStream os = new FileOutputStream(Consts.DIR_RESULT + Consts.DELIMITER + fileName + ".xls");
             Context context = new Context();
             context.putVar(fileName, list);
             JxlsHelper.getInstance().processTemplate(is, os, context);
