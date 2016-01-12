@@ -1,5 +1,6 @@
 config/*
 data/*
 target/*
+logs/*
 nbactions.xml
 nb-configuration.xml

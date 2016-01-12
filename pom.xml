@@ -38,6 +38,11 @@
             <artifactId>jxls</artifactId>
             <version>2.2.7</version>
         </dependency>
+        <dependency>
+            <groupId>org.jxls</groupId>
+            <artifactId>jxls-poi</artifactId>
+            <version>1.0.6</version>
+        </dependency>
     </dependencies>
 
 </project>

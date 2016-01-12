@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.List;
 import mrdshinse.sql2xlsx.consts.Consts;
+import mrdshinse.sql2xlsx.csv.AbstractCsv;
 import mrdshinse.sql2xlsx.logic.ExcelBuilder;
 import mrdshinse.sql2xlsx.logic.Initializer;
 import mrdshinse.sql2xlsx.logic.SqlExecuter;
@@ -66,7 +67,7 @@ public class Db2xlsx {
 
             for (File tsv : tsvFiles) {
                 System.out.print("reading tsv files...");
-                List<Object> list = new SqlServerCsvReader().exe(tsv);
+                List<AbstractCsv> list = new SqlServerCsvReader().exe(tsv);
                 System.out.println("finished");
                 System.out.print("create excel files...");
                 new ExcelBuilder().exe(tsv, list);

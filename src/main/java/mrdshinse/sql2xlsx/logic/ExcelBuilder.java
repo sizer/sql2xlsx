@@ -24,7 +24,18 @@
 package mrdshinse.sql2xlsx.logic;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import mrdshinse.sql2xlsx.csv.AbstractCsv;
+import org.jxls.common.Context;
+import org.jxls.util.JxlsHelper;
 
 /**
  *
@@ -32,7 +43,30 @@ import java.util.List;
  */
 public class ExcelBuilder {
 
-    public void exe(File file, List<Object> list) {
+    public void exe(File file, List<AbstractCsv> list) {
+        honmono(file, list);
+    }
 
+    private void honmono(File file, List<AbstractCsv> list) {
+        String fileName = file.getName().replace(".tsv", "");
+
+        InputStream is = null;
+        try {
+            is = new FileInputStream("C:\\Users\\bttanakasnx\\github\\sql2xlsx\\data\\tmp\\template\\" + fileName + ".xls");
+            OutputStream os = new FileOutputStream("C:\\Users\\bttanakasnx\\github\\sql2xlsx\\data\\result\\" + fileName + ".xls");
+            Context context = new Context();
+            context.putVar(fileName, list);
+            JxlsHelper.getInstance().processTemplate(is, os, context);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ExcelBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ExcelBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ExcelBuilder.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }
