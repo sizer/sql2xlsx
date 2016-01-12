@@ -23,13 +23,16 @@
  */
 package mrdshinse.sql2xlsx.logic;
 
+import java.io.File;
+import java.util.List;
+
 /**
  *
  * @author mrdShinse
  */
 public class ExcelBuilder {
 
-    public void exe() {
+    public void exe(File file, List<Object> list) {
 
     }
 }

@@ -27,7 +27,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.Arrays;
-import mrdshinse.sql2xlsx.command.MysqlSqlCmd;
+import mrdshinse.sql2xlsx.command.SqlServerSqlCmd;
 import mrdshinse.sql2xlsx.consts.Consts;
 import mrdshinse.sql2xlsx.helper.RuntimeExecuter;
 import mrdshinse.sql2xlsx.json.SqlProperty;
@@ -65,7 +65,7 @@ public class SqlExecuter {
     }
 
     private void execCmd(String fileName) {
-        String[] cmd = new MysqlSqlCmd(prop, fileName).getCommand();
+        String[] cmd = new SqlServerSqlCmd(prop, fileName).getCommand();
 
         try {
             runtime.execCmd(cmd);
