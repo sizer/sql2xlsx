@@ -25,11 +25,8 @@ package mrdshinse.sql2xlsx.logic;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
 import java.util.Arrays;
-import mrdshinse.sql2xlsx.command.SqlServerSqlCmd;
 import mrdshinse.sql2xlsx.consts.Consts;
-import mrdshinse.sql2xlsx.helper.RuntimeExecuter;
 import mrdshinse.sql2xlsx.json.SqlProperty;
 import mrdshinse.sql2xlsx.util.JsonUtil;
 
@@ -37,14 +34,12 @@ import mrdshinse.sql2xlsx.util.JsonUtil;
  *
  * @author mrdShinse
  */
-public class SqlExecuter {
+public abstract class SqlExecuter {
 
-    private SqlProperty prop;
-    private RuntimeExecuter runtime;
+    protected SqlProperty prop;
 
     public SqlExecuter() {
         prop = JsonUtil.parse(new File(Consts.PROP_SQL), SqlProperty.class);
-        runtime = new RuntimeExecuter();
     }
 
     public void exe() {
@@ -58,19 +53,12 @@ public class SqlExecuter {
         if (sqlFiles == null) {
             return;
         }
+
         for (File f : Arrays.asList(sqlFiles)) {
             String fileName = f.getName();
-            execCmd(fileName.substring(0, fileName.length() - 4));
+            exeQuery(fileName.substring(0, fileName.length() - 4));
         }
     }
 
-    private void execCmd(String fileName) {
-        String[] cmd = new SqlServerSqlCmd(prop, fileName).getCommand();
-
-        try {
-            runtime.execCmd(cmd);
-        } catch (IOException | InterruptedException e) {
-            System.out.println("SQLコマンドの実行に失敗しました。");
-        }
-    }
+    protected abstract void exeQuery(String fileName);
 }
