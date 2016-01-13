@@ -30,8 +30,8 @@ import mrdshinse.sql2xlsx.consts.Consts;
 import mrdshinse.sql2xlsx.csv.AbstractCsv;
 import mrdshinse.sql2xlsx.logic.ExcelBuilder;
 import mrdshinse.sql2xlsx.logic.Initializer;
-import mrdshinse.sql2xlsx.logic.SqlExecuter;
 import mrdshinse.sql2xlsx.logic.SqlServerCsvReader;
+import mrdshinse.sql2xlsx.logic.SqlServerSqlExecuter;
 
 /**
  *
@@ -51,7 +51,7 @@ public class Db2xlsx {
         }
         if (args[0].equals("exe")) {
             System.out.print("executing sql files...");
-            new SqlExecuter().exe();
+            new SqlServerSqlExecuter().exe();
             System.out.println("finished");
 
             File[] tsvFiles = new File(Consts.DIR_TSV).listFiles(new FileFilter() {

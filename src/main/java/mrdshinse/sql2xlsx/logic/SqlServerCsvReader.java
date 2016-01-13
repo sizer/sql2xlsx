@@ -54,7 +54,8 @@ public class SqlServerCsvReader {
         List<AbstractCsv> retList = new ArrayList<>();
 
         try {
-            modifyCsv(tsv);
+            //TODO #9により不要になったため、v0.2リリースまでに削除。
+            //modifyCsv(tsv);
             retList = getBean(tsv, Class.forName("mrdshinse.sql2xlsx.csv." + tsv.getName().replaceAll(".tsv", "")));
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SqlServerCsvReader.class.getName()).log(Level.SEVERE, null, ex);
