@@ -37,7 +37,7 @@ import mrdshinse.sql2xlsx.logic.SqlServerSqlExecuter;
  *
  * @author mrdShinse
  */
-public class Db2xlsx {
+public class Sql2xlsx {
 
     public static void main(String[] args) {
         System.out.println("----------start");
@@ -70,7 +70,11 @@ public class Db2xlsx {
                 List<AbstractCsv> list = new SqlServerCsvReader().exe(tsv);
                 System.out.println(" finished");
                 System.out.print("create excel files..." + tsv.getName());
-                new ExcelBuilder().exe(tsv, list);
+                try {
+                    new ExcelBuilder().exe(tsv, list);
+                } catch (OutOfMemoryError e) {
+                    System.out.println("Not enough memory. please add VM option (ex.)-Xms200m -Xmx1000m");
+                }
                 System.out.println(" finished");
             }
         }
