@@ -48,7 +48,7 @@ import mrdshinse.sql2xlsx.csv.AbstractCsv;
  *
  * @author mrdShinse
  */
-public class SqlServerCsvReader implements CsvReader {
+public class MysqlCsvReader implements CsvReader {
 
     @Override
     public List<AbstractCsv> exe(File tsv) {
@@ -59,7 +59,7 @@ public class SqlServerCsvReader implements CsvReader {
             //modifyCsv(tsv);
             retList = getBean(tsv, Class.forName("mrdshinse.sql2xlsx.csv." + tsv.getName().replaceAll(".tsv", "")));
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SqlServerCsvReader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MysqlCsvReader.class.getName()).log(Level.SEVERE, null, ex);
         }
         return retList;
     }
@@ -70,7 +70,7 @@ public class SqlServerCsvReader implements CsvReader {
         try {
             fileLength = Files.readAllLines(Paths.get(file.getAbsolutePath()), Charset.forName("Shift_JIS")).size();
         } catch (IOException ex) {
-            Logger.getLogger(SqlServerCsvReader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MysqlCsvReader.class.getName()).log(Level.SEVERE, null, ex);
         }
         try (BufferedReader br = new BufferedReader(new FileReader(file)); PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(result)))) {
 
@@ -85,9 +85,9 @@ public class SqlServerCsvReader implements CsvReader {
                 }
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(SqlServerCsvReader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MysqlCsvReader.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(SqlServerCsvReader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MysqlCsvReader.class.getName()).log(Level.SEVERE, null, ex);
         }
         file.delete();
         result.renameTo(file);
@@ -107,7 +107,7 @@ public class SqlServerCsvReader implements CsvReader {
                     .load(clazz)
                     .from(isr);
         } catch (IOException ex) {
-            Logger.getLogger(SqlServerCsvReader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MysqlCsvReader.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
     }
