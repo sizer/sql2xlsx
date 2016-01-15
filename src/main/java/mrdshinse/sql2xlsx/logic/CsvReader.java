@@ -23,15 +23,53 @@
  */
 package mrdshinse.sql2xlsx.logic;
 
+import com.orangesignal.csv.CsvConfig;
+import com.orangesignal.csv.manager.CsvEntityManager;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import mrdshinse.sql2xlsx.consts.Consts;
 import mrdshinse.sql2xlsx.csv.AbstractCsv;
 
 /**
  *
  * @author mrdShinse
  */
-public interface CsvReader {
+public class CsvReader {
 
-    public List<AbstractCsv> exe(File tsv);
+    public List<AbstractCsv> exe(String fileName) {
+        List<AbstractCsv> retList = new ArrayList<>();
+
+        try {
+            retList = getBean(new File(Consts.DIR_TSV + Consts.DELIMITER + fileName + ".tsv"), Class.forName("mrdshinse.sql2xlsx.csv." + fileName));
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+        return retList;
+    }
+
+    private List<AbstractCsv> getBean(File file, Class clazz) {
+        InputStreamReader isr = null;
+        List list = new ArrayList<>();
+
+        try {
+            isr = new InputStreamReader(new FileInputStream(file));
+            CsvConfig config = new CsvConfig('\t');
+            config.setIgnoreLeadingWhitespaces(true);
+            config.setIgnoreTrailingWhitespaces(true);
+            config.setIgnoreEmptyLines(true);
+            list = new CsvEntityManager(config)
+                    .load(clazz)
+                    .from(isr);
+        } catch (IOException ex) {
+            Logger.getLogger(MysqlCsvReader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
 }

@@ -21,11 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package mrdshinse.sql2xlsx.logic;
+package mrdshinse.sql2xlsx.facade;
 
 /**
+ * Facade class of logics
  *
  * @author mrdShinse
  */
-public class SqlServerCsvReader extends CsvReader {
+public interface Facade {
+
+    /**
+     * <pre>
+     * abstract execution.
+     * Child classes must call logics in this method.
+     * </pre>
+     */
+    void exe();
 }

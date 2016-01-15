@@ -23,7 +23,6 @@
  */
 package mrdshinse.sql2xlsx.logic;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -44,13 +43,11 @@ import org.jxls.util.JxlsHelper;
  */
 public class ExcelBuilder {
 
-    public void exe(File file, List<AbstractCsv> list) {
-        honmono(file, list);
+    public void exe(String fileName, List<AbstractCsv> list) {
+        honmono(fileName, list);
     }
 
-    private void honmono(File file, List<AbstractCsv> list) {
-        String fileName = file.getName().replace(".tsv", "");
-
+    private void honmono(String fileName, List<AbstractCsv> list) {
         InputStream is = null;
         try {
             is = new FileInputStream(Consts.DIR_TEMPLATE + Consts.DELIMITER + fileName + ".xls");

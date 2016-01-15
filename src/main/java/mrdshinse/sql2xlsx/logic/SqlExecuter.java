@@ -27,17 +27,15 @@ import com.orangesignal.csv.Csv;
 import com.orangesignal.csv.CsvConfig;
 import com.orangesignal.csv.handlers.ResultSetHandler;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mrdshinse.sql2xlsx.consts.Consts;
-import mrdshinse.sql2xlsx.json.SqlProperty;
+import mrdshinse.sql2xlsx.dto.SqlProperty;
 import mrdshinse.sql2xlsx.util.FileUtil;
 import mrdshinse.sql2xlsx.util.JsonUtil;
 
@@ -56,22 +54,8 @@ public abstract class SqlExecuter {
 
     protected abstract Connection getConnection();
 
-    public void exe() {
-        File[] sqlFiles = new File(Consts.DIR_QUERY).listFiles(new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                return f.isFile() && f.getName().endsWith("sql");
-            }
-        });
-
-        if (sqlFiles == null) {
-            return;
-        }
-
-        for (File f : Arrays.asList(sqlFiles)) {
-            String fileName = f.getName();
-            exeQuery(fileName.substring(0, fileName.length() - 4));
-        }
+    public void exe(String filename) {
+        exeQuery(filename);
     }
 
     protected void exeQuery(String fileName) {

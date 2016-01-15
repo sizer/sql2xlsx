@@ -28,7 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import mrdshinse.sql2xlsx.consts.Consts;
-import mrdshinse.sql2xlsx.json.SqlProperty;
+import mrdshinse.sql2xlsx.dto.SqlProperty;
 import mrdshinse.sql2xlsx.util.JsonUtil;
 
 /**

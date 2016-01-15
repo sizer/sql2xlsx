@@ -23,92 +23,10 @@
  */
 package mrdshinse.sql2xlsx.logic;
 
-import com.orangesignal.csv.CsvConfig;
-import com.orangesignal.csv.manager.CsvEntityManager;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import mrdshinse.sql2xlsx.csv.AbstractCsv;
-
 /**
  *
  * @author mrdShinse
  */
-public class MysqlCsvReader implements CsvReader {
+public class MysqlCsvReader extends CsvReader {
 
-    @Override
-    public List<AbstractCsv> exe(File tsv) {
-        List<AbstractCsv> retList = new ArrayList<>();
-
-        try {
-            //TODO #9により不要になったため、v0.2リリースまでに削除。
-            //modifyCsv(tsv);
-            retList = getBean(tsv, Class.forName("mrdshinse.sql2xlsx.csv." + tsv.getName().replaceAll(".tsv", "")));
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MysqlCsvReader.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return retList;
-    }
-
-    private void modifyCsv(File file) {
-        File result = new File(file.getAbsolutePath().replace(".tsv", "_.tsv"));
-        int fileLength = 0;
-        try {
-            fileLength = Files.readAllLines(Paths.get(file.getAbsolutePath()), Charset.forName("Shift_JIS")).size();
-        } catch (IOException ex) {
-            Logger.getLogger(MysqlCsvReader.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try (BufferedReader br = new BufferedReader(new FileReader(file)); PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(result)))) {
-
-            String str;
-            int counter = 0;
-
-            while ((str = br.readLine()) != null) {
-                counter++;
-
-                if (counter != 2 && counter != fileLength - 1 && counter != fileLength) {
-                    pw.println(str);
-                }
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MysqlCsvReader.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(MysqlCsvReader.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        file.delete();
-        result.renameTo(file);
-    }
-
-    private List<AbstractCsv> getBean(File file, Class clazz) {
-        InputStreamReader isr = null;
-        List list = new ArrayList<>();
-
-        try {
-            isr = new InputStreamReader(new FileInputStream(file));
-            CsvConfig config = new CsvConfig('\t');
-            config.setIgnoreLeadingWhitespaces(true);
-            config.setIgnoreTrailingWhitespaces(true);
-            config.setIgnoreEmptyLines(true);
-            list = new CsvEntityManager(config)
-                    .load(clazz)
-                    .from(isr);
-        } catch (IOException ex) {
-            Logger.getLogger(MysqlCsvReader.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return list;
-    }
 }

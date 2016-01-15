@@ -21,11 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package mrdshinse.sql2xlsx.logic;
+package mrdshinse.sql2xlsx.facade;
 
 /**
  *
  * @author mrdShinse
  */
-public class SqlServerCsvReader extends CsvReader {
+public class Help implements Facade {
+
+    @Override
+    public void exe() {
+        howto();
+    }
+
+    private void howto() {
+        System.out.println("autoSql init -> create configuration file and directory.");
+        System.out.println("autoSql exe -> execute command by configration.");
+    }
 }

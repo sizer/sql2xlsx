@@ -21,11 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package mrdshinse.sql2xlsx.logic;
+package mrdshinse.sql2xlsx.facade;
+
+import mrdshinse.sql2xlsx.logic.Initializer;
 
 /**
  *
  * @author mrdShinse
  */
-public class SqlServerCsvReader extends CsvReader {
+public class Initialization implements Facade {
+
+    @Override
+    public void exe() {
+        new Initializer().exe();
+    }
+
 }

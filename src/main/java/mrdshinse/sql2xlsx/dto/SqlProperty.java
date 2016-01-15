@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package mrdshinse.sql2xlsx.json;
+package mrdshinse.sql2xlsx.dto;
 
 import lombok.Data;
 
