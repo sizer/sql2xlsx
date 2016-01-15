@@ -28,10 +28,17 @@ import java.io.FileFilter;
 import java.util.List;
 import mrdshinse.sql2xlsx.consts.Consts;
 import mrdshinse.sql2xlsx.csv.AbstractCsv;
+import mrdshinse.sql2xlsx.json.SqlProperty;
+import mrdshinse.sql2xlsx.logic.CsvReader;
 import mrdshinse.sql2xlsx.logic.ExcelBuilder;
 import mrdshinse.sql2xlsx.logic.Initializer;
+import mrdshinse.sql2xlsx.logic.MysqlCsvReader;
+import mrdshinse.sql2xlsx.logic.MysqlSqlExecuter;
+import mrdshinse.sql2xlsx.logic.SqlExecuter;
 import mrdshinse.sql2xlsx.logic.SqlServerCsvReader;
 import mrdshinse.sql2xlsx.logic.SqlServerSqlExecuter;
+import mrdshinse.sql2xlsx.util.FileUtil;
+import mrdshinse.sql2xlsx.util.JsonUtil;
 
 /**
  *
@@ -50,8 +57,27 @@ public class Sql2xlsx {
             new Initializer().exe();
         }
         if (args[0].equals("exe")) {
+
+            //TODO 初期値をnull以外にする。(v0.2まで)
+            SqlExecuter sqlExecuter = null;
+            CsvReader csvReader = null;
+
+            String dbType = JsonUtil.parse(FileUtil.toString(new File(Consts.PROP_SQL)), SqlProperty.class).getDbType();
+            if (null != dbType) {
+                switch (dbType) {
+                    case "sqlserver":
+                        sqlExecuter = new SqlServerSqlExecuter();
+                        csvReader = new SqlServerCsvReader();
+                        break;
+                    case "mysql":
+                        sqlExecuter = new MysqlSqlExecuter();
+                        csvReader = new MysqlCsvReader();
+                        break;
+                }
+            }
+
             System.out.print("executing sql files...");
-            new SqlServerSqlExecuter().exe();
+            sqlExecuter.exe();
             System.out.println("finished");
 
             File[] tsvFiles = new File(Consts.DIR_TSV).listFiles(new FileFilter() {
@@ -67,7 +93,7 @@ public class Sql2xlsx {
 
             for (File tsv : tsvFiles) {
                 System.out.print("reading tsv files..." + tsv.getName());
-                List<AbstractCsv> list = new SqlServerCsvReader().exe(tsv);
+                List<AbstractCsv> list = csvReader.exe(tsv);
                 System.out.println(" finished");
                 System.out.print("create excel files..." + tsv.getName());
                 try {

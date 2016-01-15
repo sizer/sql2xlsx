@@ -21,22 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package mrdshinse.sql2xlsx.csv;
+package mrdshinse.sql2xlsx.logic;
 
-import com.orangesignal.csv.annotation.CsvColumn;
-import com.orangesignal.csv.annotation.CsvEntity;
-import lombok.Data;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import mrdshinse.sql2xlsx.consts.Consts;
 
 /**
  *
  * @author mrdShinse
  */
-@CsvEntity
-@Data
-public class SampleCsv {
+public class MysqlSqlExecuter extends SqlExecuter {
 
-    @CsvColumn(name = "id")
-    private int id;
-    @CsvColumn(name = "name")
-    private String name;
+    @Override
+    protected Connection getConnection() {
+        Driver d;
+        Connection c;
+        try {
+            d = (Driver) Class.forName("com.mysql.jdbc.Driver").newInstance();
+            String connUrl = "jdbc:mysql://" + prop.getServer() + Consts.DELIMITER + prop.getDbName();
+            c = DriverManager
+                    .getConnection(connUrl, prop.getUser(), prop.getPassword());
+
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            c = null;
+            Logger.getLogger(MysqlSqlExecuter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return c;
+    }
+
 }

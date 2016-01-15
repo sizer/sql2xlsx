@@ -21,35 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package mrdshinse.sql2xlsx.logic;
+package mrdshinse.sql2xlsx.csv;
 
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.SQLException;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.orangesignal.csv.annotation.CsvColumn;
+import com.orangesignal.csv.annotation.CsvEntity;
+import lombok.Data;
 
 /**
  *
  * @author mrdShinse
  */
-public class SqlServerSqlExecuter extends SqlExecuter {
+@CsvEntity
+@Data
+public class Sample {
 
-    @Override
-    protected Connection getConnection() {
-        Driver d;
-        Connection c;
-        try {
-            d = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
-            String connUrl = "jdbc:sqlserver://" + prop.getServer() + ";database=" + prop.getDbName() + ";"
-                    + "integratedSecurity=false;user=" + prop.getUser() + ";password=" + prop.getPassword();
-            c = d.connect(connUrl, new Properties());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-            c = null;
-            Logger.getLogger(SqlServerSqlExecuter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return c;
-    }
-
+    @CsvColumn(name = "id")
+    private int id;
+    @CsvColumn(name = "name")
+    private String name;
 }

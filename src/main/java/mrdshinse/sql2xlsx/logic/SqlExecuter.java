@@ -23,11 +23,22 @@
  */
 package mrdshinse.sql2xlsx.logic;
 
+import com.orangesignal.csv.Csv;
+import com.orangesignal.csv.CsvConfig;
+import com.orangesignal.csv.handlers.ResultSetHandler;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mrdshinse.sql2xlsx.consts.Consts;
 import mrdshinse.sql2xlsx.json.SqlProperty;
+import mrdshinse.sql2xlsx.util.FileUtil;
 import mrdshinse.sql2xlsx.util.JsonUtil;
 
 /**
@@ -37,10 +48,13 @@ import mrdshinse.sql2xlsx.util.JsonUtil;
 public abstract class SqlExecuter {
 
     protected SqlProperty prop;
+    protected Connection con;
 
     public SqlExecuter() {
         prop = JsonUtil.parse(new File(Consts.PROP_SQL), SqlProperty.class);
     }
+
+    protected abstract Connection getConnection();
 
     public void exe() {
         File[] sqlFiles = new File(Consts.DIR_QUERY).listFiles(new FileFilter() {
@@ -60,5 +74,20 @@ public abstract class SqlExecuter {
         }
     }
 
-    protected abstract void exeQuery(String fileName);
+    protected void exeQuery(String fileName) {
+        con = getConnection();
+
+        File sqlFile = new File(Consts.DIR_QUERY + Consts.DELIMITER + fileName + ".sql");
+        String sql = FileUtil.toString(sqlFile);
+
+        try (Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+
+            Csv.save(rs, new File(Consts.DIR_TSV + Consts.DELIMITER + fileName + ".tsv"), new CsvConfig('\t'), new ResultSetHandler());
+        } catch (IOException ex) {
+            Logger.getLogger(MysqlSqlExecuter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlExecuter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 }

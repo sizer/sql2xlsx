@@ -23,33 +23,15 @@
  */
 package mrdshinse.sql2xlsx.logic;
 
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.SQLException;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.File;
+import java.util.List;
+import mrdshinse.sql2xlsx.csv.AbstractCsv;
 
 /**
  *
  * @author mrdShinse
  */
-public class SqlServerSqlExecuter extends SqlExecuter {
+public interface CsvReader {
 
-    @Override
-    protected Connection getConnection() {
-        Driver d;
-        Connection c;
-        try {
-            d = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
-            String connUrl = "jdbc:sqlserver://" + prop.getServer() + ";database=" + prop.getDbName() + ";"
-                    + "integratedSecurity=false;user=" + prop.getUser() + ";password=" + prop.getPassword();
-            c = d.connect(connUrl, new Properties());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-            c = null;
-            Logger.getLogger(SqlServerSqlExecuter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return c;
-    }
-
+    public List<AbstractCsv> exe(File tsv);
 }
