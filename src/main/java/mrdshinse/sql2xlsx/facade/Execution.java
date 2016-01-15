@@ -60,6 +60,8 @@ public class Execution implements Facade {
 
     @Override
     public void exe() {
+        System.out.println("----------start");
+
         File[] sqlFiles = callQueries();
 
         if (sqlFiles == null) {
@@ -75,6 +77,8 @@ public class Execution implements Facade {
 
             executeExcelBuilder(fileName, dtoList);
         }
+
+        System.out.println("----------end");
     }
 
     private SqlProperty callProperty() {

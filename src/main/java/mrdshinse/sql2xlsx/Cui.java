@@ -62,7 +62,7 @@ public class Cui {
      * @param args arguments
      */
     public static void main(String[] args) {
-        new Cui(args).exe();
+        new Cui(null).exe();
     }
 
     /**
@@ -72,9 +72,8 @@ public class Cui {
      * </pre>
      */
     private void exe() {
-        System.out.println("----------start");
 
-        if (options.length != 1) {
+        if (options == null || options.length != 1) {
             facade = new Help();
         } else if (options[0].equals("init")) {
             facade = new Initialization();
@@ -84,7 +83,6 @@ public class Cui {
 
         facade.exe();
 
-        System.out.println("----------end");
     }
 
 }
